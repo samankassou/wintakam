@@ -1,0 +1,36 @@
+/* === base styles === */
+html {
+  scroll-behavior: smooth;
+}
+h1,
+h2,
+h3,
+hr,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+*,
+::before,
+::after {
+  border-width: 0;
+  border-style: solid;
+}
+button:focus {
+  outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+}
