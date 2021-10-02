@@ -6,3 +6,6 @@ toggleMenuBtn.addEventListener("click", (e) => {
   toggleMenuBtn.classList.toggle("active");
   menuMobile.classList.toggle("active");
 });
+
+/* === load particles js */
+particlesJS.load("home", "assets/particles.json");
