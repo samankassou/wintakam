@@ -8,4 +8,4 @@ toggleMenuBtn.addEventListener("click", (e) => {
 });
 
 /* === load particles js */
-particlesJS.load("home", "assets/particles.json");
+particlesJS.load("particle-js", "assets/particles.json");

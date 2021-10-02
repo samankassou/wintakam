@@ -4,16 +4,12 @@
 html {
   font-family: "Nunito", sans-serif;
 }
-h1 {
-  color: red;
-  font-family: "Nunito", sans-serif;
-}
 header {
   min-height: 100vh;
   position: relative;
 }
 .nav {
-  height: 2.5rem;
+  height: 4rem;
   background-color: black;
   display: flex;
   align-items: center;
@@ -52,10 +48,11 @@ header {
 .menu-mobile {
   position: absolute;
   left: 0;
-  top: 2.5rem;
+  top: 4rem;
+  z-index: 99;
   background-color: black;
   width: 0%;
-  height: calc(100vh - 2.5rem);
+  height: calc(100vh - 4rem);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -74,6 +71,27 @@ header {
   }
 }
 .home {
-  background-color: blue;
-  height: calc(100vh - 2.5rem);
+  position: relative;
+  height: calc(100vh - 4rem);
+  background-image: url("../images/home-bg.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__overlay {
+    background-color: rgba($color: #000000, $alpha: 0.6);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+  &__text {
+    color: #fff;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+  }
 }
