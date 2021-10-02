@@ -195,6 +195,18 @@ button:focus {
   outline: 5px auto -webkit-focus-ring-color;
 }
 
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+}
+
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 85%;
+  }
+}
+
 html {
   font-family: "Nunito", sans-serif;
 }
@@ -202,5 +214,80 @@ html {
 h1 {
   color: red;
   font-family: "Nunito", sans-serif;
+}
+
+header {
+  min-height: 100vh;
+}
+
+.nav {
+  height: 2.5rem;
+  background-color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.toggle-menu-btn {
+  cursor: pointer;
+}
+
+.toggle-menu-btn.active div:nth-child(1) {
+  -webkit-transform: rotate(-45deg) translate(-6px, 6px);
+          transform: rotate(-45deg) translate(-6px, 6px);
+}
+
+.toggle-menu-btn.active div:nth-child(2) {
+  opacity: 0;
+}
+
+.toggle-menu-btn.active div:nth-child(3) {
+  -webkit-transform: rotate(45deg) translate(-6px, -7px);
+          transform: rotate(45deg) translate(-6px, -7px);
+}
+
+.toggle-menu-btn div {
+  width: 28px;
+  height: 3px;
+  background-color: #fff;
+  margin: 6px 0;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.logo {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 0.2rem;
+}
+
+.menu-mobile {
+  background-color: blue;
+  width: 0%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  height: calc(100vh - 2.5rem);
+}
+
+.menu-mobile a {
+  text-decoration: none;
+  color: white;
 }
 /*# sourceMappingURL=style.css.map */

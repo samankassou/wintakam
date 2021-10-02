@@ -34,3 +34,14 @@ button:focus {
   outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color;
 }
+
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 100%;
+}
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 85%;
+  }
+}
