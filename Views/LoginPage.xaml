@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Wintakam.ViewModels"
+             x:Class="Wintakam.Views.LoginPage"
+             x:DataType="viewmodels:LoginViewModel"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="36,107,36,40" Spacing="0">
+
+            <!-- Title -->
+            <Label
+                Text="Bon retour !"
+                FontFamily="Roboto"
+                FontSize="36"
+                FontAttributes="Bold"
+                TextColor="{StaticResource Primary}"
+                Margin="0,0,0,15" />
+
+            <!-- Subtitle -->
+            <Label
+                Text="Heureux de vous revoir sur la plateforme qui met en avant vos propriétés immobilières"
+                FontFamily="Roboto"
+                FontSize="20"
+                TextColor="#393E46"
+                LineHeight="1.2"
+                Margin="0,0,0,43" />
+
+            <!-- Email Label -->
+            <Label
+                Text="Email"
+                FontFamily="Roboto"
+                FontSize="16"
+                TextColor="Black"
+                Margin="0,0,0,8" />
+
+            <!-- Email Entry -->
+            <Entry
+                Text="{Binding Email}"
+                Placeholder="adresse.email@gmail.com"
+                PlaceholderColor="#8F000000"
+                FontFamily="Roboto"
+                FontSize="15"
+                TextColor="Black"
+                BackgroundColor="Transparent"
+                Keyboard="Email"
+                Margin="0,0,0,0" />
+
+            <!-- Email Underline -->
+            <BoxView
+                Color="#393E46"
+                HeightRequest="1"
+                Margin="0,0,0,30" />
+
+            <!-- Password Label -->
+            <Label
+                Text="Mot de passe"
+                FontFamily="Roboto"
+                FontSize="16"
+                TextColor="Black"
+                Margin="0,0,0,8" />
+
+            <!-- Password Entry with Toggle -->
+            <Grid Margin="0,0,0,0">
+                <Entry
+                    Text="{Binding Password}"
+                    IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InvertedBoolConverter}}"
+                    FontFamily="Roboto"
+                    FontSize="15"
+                    TextColor="Black"
+                    BackgroundColor="Transparent" />
+
+                <Button
+                    Text="&#x1F441;"
+                    FontSize="15"
+                    TextColor="#393E46"
+                    WidthRequest="30"
+                    HeightRequest="30"
+                    CornerRadius="15"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center"
+                    BackgroundColor="Transparent"
+                    Padding="0"
+                    Command="{Binding TogglePasswordVisibilityCommand}"
+                    Margin="0,0,0,0" />
+            </Grid>
+
+            <!-- Password Underline -->
+            <BoxView
+                Color="#393E46"
+                HeightRequest="1"
+                Margin="0,5,0,17" />
+
+            <!-- Remember Me Checkbox -->
+            <HorizontalStackLayout Spacing="7" Margin="0,0,0,36">
+                <CheckBox
+                    IsChecked="{Binding RememberMe}"
+                    Color="#3D405B" />
+                <Label
+                    Text="Se souvenir"
+                    FontFamily="Roboto"
+                    FontSize="12"
+                    TextColor="#80000000"
+                    VerticalOptions="Center" />
+            </HorizontalStackLayout>
+
+            <!-- Login Button -->
+            <Button
+                Text="Se connecter"
+                FontFamily="Roboto"
+                FontSize="16"
+                FontAttributes="Bold"
+                TextColor="White"
+                BackgroundColor="#393E46"
+                CornerRadius="5"
+                WidthRequest="151"
+                HeightRequest="34"
+                HorizontalOptions="Center"
+                Command="{Binding LoginCommand}"
+                Margin="0,0,0,37" />
+
+            <!-- OR Divider -->
+            <Label
+                Text="OU"
+                FontFamily="Roboto"
+                FontSize="16"
+                FontAttributes="Bold"
+                TextColor="#80000000"
+                HorizontalOptions="Center"
+                Margin="0,0,0,27" />
+
+            <!-- Social Login Buttons -->
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="25"
+                Margin="0,0,0,43">
+
+                <Button
+                    Text="G"
+                    FontSize="32"
+                    FontAttributes="Bold"
+                    TextColor="#4285F4"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    BorderColor="#DDDDDD"
+                    BorderWidth="1"
+                    BackgroundColor="White"
+                    Command="{Binding GoogleLoginCommand}" />
+
+                <Button
+                    Text="f"
+                    FontSize="32"
+                    FontAttributes="Bold"
+                    TextColor="#1877F2"
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="30"
+                    BorderColor="#DDDDDD"
+                    BorderWidth="1"
+                    BackgroundColor="White"
+                    VerticalOptions="Center"
+                    Command="{Binding FacebookLoginCommand}" />
+            </HorizontalStackLayout>
+
+            <!-- Registration Link -->
+            <HorizontalStackLayout
+                HorizontalOptions="Center"
+                Spacing="5"
+                Margin="0,0,0,74">
+                <Label
+                    Text="Vous n'avez pas de compte?"
+                    FontFamily="Roboto"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    TextColor="#80000000" />
+                <Label
+                    Text="S'enregistrer"
+                    FontFamily="Roboto"
+                    FontSize="14"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource Primary}"
+                    TextDecorations="Underline">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding RegisterCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+            <!-- Back Link -->
+            <Label
+                Text="Retour"
+                FontFamily="Roboto"
+                FontSize="24"
+                FontAttributes="Bold"
+                TextColor="#393E46"
+                HorizontalOptions="End">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
