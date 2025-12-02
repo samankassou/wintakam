@@ -19,9 +19,27 @@ Wintakam is a cross-platform real estate management mobile application built wit
 
 ## Quick Start
 
+> **⚠️ SECURITY NOTICE**: For evaluation purposes, Supabase credentials are temporarily included below. These will be removed and rotated after course evaluation for security reasons.
+
 ### 1. Configuration
 
-Copy the example configuration file and add your Supabase credentials:
+**For Quick Testing (Instructors & Evaluators):**
+
+The project is pre-configured with a test Supabase instance. You can skip the configuration step and go directly to step 2.
+
+Current configuration (`appsettings.json`):
+```json
+{
+  "Supabase": {
+    "Url": "https://vawdvlzgpclnmmvtxzkn.supabase.co",
+    "AnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZhd2R2bHpncGNsbm1tdnR4emtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ2NzQ3NDIsImV4cCI6MjA4MDI1MDc0Mn0.RwmVjqy5o_jsaurBQQ6UlalraOU3tQK-RHrbYCtLzWU"
+  }
+}
+```
+
+**For Development with Your Own Backend:**
+
+Copy the example configuration file and add your own Supabase credentials:
 
 ```bash
 # Windows
@@ -54,6 +72,15 @@ dotnet build -t:Run -f net9.0-ios
 # Run on macOS
 dotnet build -t:Run -f net9.0-maccatalyst
 ```
+
+### 3. Test Credentials
+
+For testing the application, you can use the following default test account:
+
+- **Email:** `test@example.com`
+- **Password:** `Test123!`
+
+This account is pre-configured in the Supabase backend for development and testing purposes.
 
 ## Project Structure
 
