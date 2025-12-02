@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:Wintakam.ViewModels"
+             xmlns:models="clr-namespace:Wintakam.Models"
+             x:Class="Wintakam.Views.PropertyListPage"
+             x:DataType="viewmodels:PropertyListViewModel"
+             Title=""
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Header Section -->
+        <VerticalStackLayout Grid.Row="0"
+                            Padding="16,10,16,10"
+                            Spacing="12"
+                            BackgroundColor="White">
+
+            <!-- Location and Search Row -->
+            <Grid ColumnDefinitions="*,Auto">
+                <!-- Location Dropdown -->
+                <HorizontalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="📍"
+                           FontSize="16"
+                           VerticalOptions="Center"/>
+                    <Label Text="Localisation"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Primary}"
+                           VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <!-- Search Icon -->
+                <ImageButton Grid.Column="1"
+                            Source="search.png"
+                            BackgroundColor="Transparent"
+                            WidthRequest="24"
+                            HeightRequest="24"
+                            VerticalOptions="Center"/>
+            </Grid>
+
+            <!-- Selected Location -->
+            <Label Text="Sud, Kribi"
+                   FontSize="12"
+                   TextColor="{StaticResource Gray600}"
+                   Margin="21,0,0,0"/>
+
+            <!-- Title and Filters Row -->
+            <Grid ColumnDefinitions="Auto,*"
+                  ColumnSpacing="10"
+                  Margin="0,8,0,0">
+                <Label Grid.Column="0"
+                       Text="Maisons"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource WintakamDarkGray}"
+                       VerticalOptions="Center"/>
+
+                <HorizontalStackLayout Grid.Column="1"
+                                      Spacing="8"
+                                      HorizontalOptions="End"
+                                      VerticalOptions="Center">
+                    <!-- Vente Filter -->
+                    <Border StrokeShape="RoundRectangle 6"
+                           Stroke="{StaticResource Gray300}"
+                           StrokeThickness="1"
+                           Padding="12,6"
+                           BackgroundColor="White">
+                        <HorizontalStackLayout Spacing="4">
+                            <Label Text="Vente"
+                                   FontSize="12"
+                                   TextColor="{StaticResource WintakamDarkGray}"/>
+                            <Label Text="▼"
+                                   FontSize="8"
+                                   TextColor="{StaticResource WintakamDarkGray}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Tri Filter -->
+                    <Border StrokeShape="RoundRectangle 6"
+                           Stroke="{StaticResource Gray300}"
+                           StrokeThickness="1"
+                           Padding="12,6"
+                           BackgroundColor="White">
+                        <HorizontalStackLayout Spacing="4">
+                            <Label Text="Tri"
+                                   FontSize="12"
+                                   TextColor="{StaticResource WintakamDarkGray}"/>
+                            <Label Text="▼"
+                                   FontSize="8"
+                                   TextColor="{StaticResource WintakamDarkGray}"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Menu Icon -->
+                    <Border StrokeShape="RoundRectangle 6"
+                           Stroke="{StaticResource Primary}"
+                           StrokeThickness="1"
+                           Padding="8,6"
+                           BackgroundColor="{StaticResource Primary}">
+                        <Label Text="☰"
+                               FontSize="14"
+                               TextColor="White"
+                               VerticalOptions="Center"/>
+                    </Border>
+                </HorizontalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+
+        <!-- Content Section -->
+        <RefreshView Grid.Row="1"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}">
+            <ScrollView>
+                <VerticalStackLayout Padding="16,0,16,16" Spacing="0">
+
+                    <!-- Loading State -->
+                    <VerticalStackLayout IsVisible="{Binding IsLoading}"
+                                        Padding="20"
+                                        Spacing="10"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Margin="0,60,0,0">
+                        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                          Color="{StaticResource Primary}"
+                                          HeightRequest="50"
+                                          WidthRequest="50"
+                                          HorizontalOptions="Center" />
+                        <Label Text="Chargement des propriétés..."
+                              FontSize="14"
+                              TextColor="{StaticResource Gray600}"
+                              HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <!-- Error State -->
+                    <VerticalStackLayout IsVisible="{Binding HasError}"
+                                        Spacing="15"
+                                        Padding="20"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Margin="0,60,0,0">
+                        <Label Text="❌"
+                              FontSize="48"
+                              HorizontalOptions="Center" />
+                        <Label Text="{Binding ErrorMessage}"
+                              FontSize="16"
+                              TextColor="{StaticResource Gray600}"
+                              HorizontalOptions="Center"
+                              HorizontalTextAlignment="Center" />
+                        <Button Text="Réessayer"
+                               Command="{Binding LoadPropertiesCommand}"
+                               BackgroundColor="{StaticResource Primary}"
+                               TextColor="White"
+                               CornerRadius="10"
+                               Padding="30,10"
+                               Margin="0,10,0,0" />
+                    </VerticalStackLayout>
+
+                    <!-- Empty State -->
+                    <VerticalStackLayout IsVisible="{Binding HasNoProperties}"
+                                        Spacing="15"
+                                        Padding="20"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Margin="0,60,0,0">
+                        <Label Text="🏠"
+                              FontSize="48"
+                              HorizontalOptions="Center" />
+                        <Label Text="Aucune propriété disponible"
+                              FontSize="16"
+                              TextColor="{StaticResource Gray600}"
+                              HorizontalOptions="Center"
+                              HorizontalTextAlignment="Center" />
+                        <Label Text="Revenez plus tard pour découvrir de nouvelles propriétés."
+                              FontSize="14"
+                              TextColor="{StaticResource Gray600}"
+                              HorizontalOptions="Center"
+                              HorizontalTextAlignment="Center"
+                              Margin="0,5,0,0" />
+                    </VerticalStackLayout>
+
+                    <!-- Property Grid (2 columns) -->
+                    <CollectionView ItemsSource="{Binding Properties}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                           Span="2"
+                                           HorizontalItemSpacing="12"
+                                           VerticalItemSpacing="12" />
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Property">
+                                <Border StrokeShape="RoundRectangle 12"
+                                       Stroke="Transparent"
+                                       StrokeThickness="0"
+                                       BackgroundColor="White"
+                                       Padding="0">
+
+                                    <Border.Shadow>
+                                        <Shadow Brush="{StaticResource Gray300}"
+                                               Offset="0,2"
+                                               Radius="8"
+                                               Opacity="0.3" />
+                                    </Border.Shadow>
+
+                                    <Grid RowDefinitions="Auto,*">
+                                        <!-- Property Image with Heart Icon -->
+                                        <Grid Grid.Row="0" HeightRequest="140">
+                                            <Image Source="{Binding ImageUrl}"
+                                                  Aspect="AspectFill" />
+
+                                            <!-- Heart Icon Overlay -->
+                                            <Border StrokeShape="RoundRectangle 20"
+                                                   BackgroundColor="White"
+                                                   WidthRequest="32"
+                                                   HeightRequest="32"
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="Start"
+                                                   Margin="8"
+                                                   Padding="0">
+                                                <Label Text="🤍"
+                                                      FontSize="16"
+                                                      HorizontalOptions="Center"
+                                                      VerticalOptions="Center" />
+                                            </Border>
+                                        </Grid>
+
+                                        <!-- Property Details -->
+                                        <Grid Grid.Row="1"
+                                             RowDefinitions="Auto,Auto,Auto,Auto"
+                                             Padding="10"
+                                             RowSpacing="4">
+
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:PropertyListViewModel}}, Path=PropertyTappedCommand}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+
+                                            <!-- Property Title -->
+                                            <Label Grid.Row="0"
+                                                  Text="{Binding Title}"
+                                                  FontSize="14"
+                                                  FontAttributes="Bold"
+                                                  TextColor="{StaticResource WintakamDarkGray}"
+                                                  LineBreakMode="TailTruncation"
+                                                  MaxLines="1" />
+
+                                            <!-- Property Info (Bedrooms, Area) -->
+                                            <HorizontalStackLayout Grid.Row="1"
+                                                                  Spacing="10"
+                                                                  Margin="0,2,0,0">
+                                                <HorizontalStackLayout Spacing="3"
+                                                                      IsVisible="{Binding Bedrooms, Converter={StaticResource IsNotNullConverter}}">
+                                                    <Label Text="🛏"
+                                                          FontSize="11" />
+                                                    <Label Text="{Binding Bedrooms}"
+                                                          FontSize="11"
+                                                          TextColor="{StaticResource Gray600}" />
+                                                    <Label Text="Chambres"
+                                                          FontSize="11"
+                                                          TextColor="{StaticResource Gray600}" />
+                                                </HorizontalStackLayout>
+
+                                                <HorizontalStackLayout Spacing="3"
+                                                                      IsVisible="{Binding Area, Converter={StaticResource IsNotNullConverter}}">
+                                                    <Label Text="📐"
+                                                          FontSize="11" />
+                                                    <Label FontSize="11"
+                                                          TextColor="{StaticResource Gray600}">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding Area, StringFormat='{0}'}" />
+                                                                <Span Text=" m²" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </HorizontalStackLayout>
+                                            </HorizontalStackLayout>
+
+                                            <!-- Property Price -->
+                                            <Label Grid.Row="2"
+                                                  FontSize="13"
+                                                  FontAttributes="Bold"
+                                                  TextColor="{StaticResource Primary}"
+                                                  Margin="0,4,0,0">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Price, StringFormat='{0:N0}'}" />
+                                                        <Span Text=" " />
+                                                        <Span Text="{Binding Currency}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+
+                                            <!-- Plus Button -->
+                                            <Border Grid.Row="3"
+                                                   StrokeShape="RoundRectangle 15"
+                                                   BackgroundColor="{StaticResource Primary}"
+                                                   WidthRequest="24"
+                                                   HeightRequest="24"
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="End"
+                                                   Margin="0,-8,-8,0"
+                                                   Padding="0">
+                                                <Label Text="+"
+                                                      FontSize="16"
+                                                      FontAttributes="Bold"
+                                                      TextColor="White"
+                                                      HorizontalOptions="Center"
+                                                      VerticalOptions="Center" />
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                </VerticalStackLayout>
+            </ScrollView>
+        </RefreshView>
+
+    </Grid>
+
+</ContentPage>
