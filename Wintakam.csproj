@@ -60,8 +60,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<!-- Include appsettings files -->
+		<MauiAsset Include="appsettings.json" Condition="Exists('appsettings.json')" />
+		<MauiAsset Include="appsettings.example.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="supabase-csharp" Version="0.16.2" />
+		<PackageReference Include="System.Text.Json" Version="9.0.0" />
 	</ItemGroup>
 
 </Project>
