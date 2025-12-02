@@ -8,21 +8,49 @@
     Shell.FlyoutBehavior="Disabled"
     Title="Wintakam">
 
+    <!-- Onboarding Pages (no tabs) -->
     <ShellContent
         Title="Welcome"
         ContentTemplate="{DataTemplate views:WelcomePage}"
         Route="WelcomePage" />
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage"
-        IsVisible="False" />
-
-    <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="LoginPage"
         IsVisible="False" />
+
+    <!-- Main App with Bottom Navigation -->
+    <TabBar Route="MainTabs">
+        <ShellContent
+            Title="Accueil"
+            Icon="home.png"
+            ContentTemplate="{DataTemplate views:PropertyListPage}"
+            Route="PropertyListPage" />
+
+        <ShellContent
+            Title="Favoris"
+            Icon="heart.png"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="FavoritesPage" />
+
+        <ShellContent
+            Title="Menu"
+            Icon="menu.png"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="MenuPage" />
+
+        <ShellContent
+            Title="Événements"
+            Icon="calendar.png"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="EventsPage" />
+
+        <ShellContent
+            Title="Compte"
+            Icon="person.png"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="AccountPage" />
+    </TabBar>
 
 </Shell>
