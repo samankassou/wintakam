@@ -14,6 +14,6 @@ public class WelcomeViewModel
     private async void OnContinue()
     {
         // Navigate to the login page after welcome
-        await Shell.Current.GoToAsync("//LoginPage");
+        await Shell.Current.GoToAsync(nameof(Views.LoginPage));
     }
 }
