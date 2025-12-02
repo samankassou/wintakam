@@ -372,3 +372,8 @@ FodyWeavers.xsd
 .gradle/
 .idea/
 local.properties
+
+# Supabase credentials - IMPORTANT: Keep this secret!
+appsettings.json
+appsettings.*.json
+!appsettings.example.json
