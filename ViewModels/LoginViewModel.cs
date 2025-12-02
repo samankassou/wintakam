@@ -1,68 +1,50 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Wintakam.Models;
+using Wintakam.Services;
 
 namespace Wintakam.ViewModels;
 
 public class LoginViewModel : INotifyPropertyChanged
 {
+    private readonly IAuthenticationService _authService;
     private string _email = string.Empty;
     private string _password = string.Empty;
     private bool _rememberMe;
     private bool _isPasswordVisible;
+    private bool _isBusy;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public string Email
     {
         get => _email;
-        set
-        {
-            if (_email != value)
-            {
-                _email = value;
-                OnPropertyChanged();
-            }
-        }
+        set { if (_email != value) { _email = value; OnPropertyChanged(); } }
     }
 
     public string Password
     {
         get => _password;
-        set
-        {
-            if (_password != value)
-            {
-                _password = value;
-                OnPropertyChanged();
-            }
-        }
+        set { if (_password != value) { _password = value; OnPropertyChanged(); } }
     }
 
     public bool RememberMe
     {
         get => _rememberMe;
-        set
-        {
-            if (_rememberMe != value)
-            {
-                _rememberMe = value;
-                OnPropertyChanged();
-            }
-        }
+        set { if (_rememberMe != value) { _rememberMe = value; OnPropertyChanged(); } }
     }
 
     public bool IsPasswordVisible
     {
         get => _isPasswordVisible;
-        set
-        {
-            if (_isPasswordVisible != value)
-            {
-                _isPasswordVisible = value;
-                OnPropertyChanged();
-            }
-        }
+        set { if (_isPasswordVisible != value) { _isPasswordVisible = value; OnPropertyChanged(); } }
+    }
+
+    public bool IsBusy
+    {
+        get => _isBusy;
+        set { if (_isBusy != value) { _isBusy = value; OnPropertyChanged(); } }
     }
 
     public ICommand LoginCommand { get; }
@@ -72,32 +54,66 @@ public class LoginViewModel : INotifyPropertyChanged
     public ICommand RegisterCommand { get; }
     public ICommand BackCommand { get; }
 
-    public LoginViewModel()
+    public LoginViewModel(IAuthenticationService authService)
     {
-        LoginCommand = new Command(OnLogin);
+        _authService = authService;
+
+        LoginCommand = new Command(async () => await OnLoginAsync(), () => !IsBusy);
         TogglePasswordVisibilityCommand = new Command(OnTogglePasswordVisibility);
         GoogleLoginCommand = new Command(OnGoogleLogin);
         FacebookLoginCommand = new Command(OnFacebookLogin);
-        RegisterCommand = new Command(OnRegister);
-        BackCommand = new Command(OnBack);
+        RegisterCommand = new Command(async () => await OnRegisterAsync());
+        BackCommand = new Command(async () => await OnBackAsync());
     }
 
-    private async void OnLogin()
+    private async Task OnLoginAsync()
     {
+        if (IsBusy) return;
+
         if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
         {
-            await Shell.Current.DisplayAlert(
-                "Erreur",
-                "Veuillez saisir votre email et mot de passe",
-                "OK");
+            await Shell.Current.DisplayAlert("Erreur", "Veuillez saisir votre email et mot de passe", "OK");
             return;
         }
 
-        // TODO: Implement actual login logic
-        await Shell.Current.DisplayAlert(
-            "Connexion",
-            $"Email: {Email}\nSe souvenir: {RememberMe}",
-            "OK");
+        if (!IsValidEmail(Email))
+        {
+            await Shell.Current.DisplayAlert("Erreur", "Veuillez saisir une adresse email valide", "OK");
+            return;
+        }
+
+        IsBusy = true;
+
+        try
+        {
+            var loginRequest = new LoginRequest
+            {
+                Email = Email.Trim(),
+                Password = Password,
+                RememberMe = RememberMe
+            };
+
+            var result = await _authService.SignInAsync(loginRequest);
+
+            if (result.Success)
+            {
+                Password = string.Empty;
+                // Navigate to main app with tabs
+                await Shell.Current.GoToAsync("//MainTabs/PropertyListPage");
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Échec de connexion", result.ErrorMessage ?? "Une erreur s'est produite", "OK");
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Erreur", $"Une erreur inattendue s'est produite: {ex.Message}", "OK");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     private void OnTogglePasswordVisibility()
@@ -107,31 +123,35 @@ public class LoginViewModel : INotifyPropertyChanged
 
     private async void OnGoogleLogin()
     {
-        // TODO: Implement Google OAuth login
-        await Shell.Current.DisplayAlert(
-            "Google Login",
-            "Connexion avec Google à implémenter",
-            "OK");
+        await Shell.Current.DisplayAlert("Non disponible", "La connexion via Google n'est pas encore disponible.", "OK");
     }
 
     private async void OnFacebookLogin()
     {
-        // TODO: Implement Facebook OAuth login
-        await Shell.Current.DisplayAlert(
-            "Facebook Login",
-            "Connexion avec Facebook à implémenter",
-            "OK");
+        await Shell.Current.DisplayAlert("Non disponible", "La connexion via Facebook n'est pas encore disponible.", "OK");
     }
 
-    private async void OnRegister()
+    private async Task OnRegisterAsync()
     {
-        // TODO: Navigate to registration page
-        await Shell.Current.GoToAsync("//register");
+        await Shell.Current.DisplayAlert("Bientôt disponible", "La page d'inscription sera bientôt disponible.", "OK");
     }
 
-    private async void OnBack()
+    private async Task OnBackAsync()
     {
         await Shell.Current.GoToAsync("..");
+    }
+
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
